@@ -1,13 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import ShopNavigation from './src/navigation/ShopNavigation';
+import { useFonts } from 'expo-font';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  const [fontsLoaded] = useFonts({
+    "Raleway-Regular": require("./src/assets/fonts/Raleway-Regular.ttf")
+  });
+  if(!fontsLoaded){
+    return null;
+  }
+  return <ShopNavigation/>
 }
 
 const styles = StyleSheet.create({
