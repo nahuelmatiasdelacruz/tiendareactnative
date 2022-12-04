@@ -1,27 +1,28 @@
-import { StyleSheet, Button, Text, View } from 'react-native'
+import { FlatList } from 'react-native'
 import React from 'react'
-import Colors from '../Colors';
+import ProductItem from '../components/ProductItem';
+import { BREADS } from '../data/bread';
 
-const ProductCategoryScreen = (props) => {
-  const {navigation} = props;
+const ProductCategoryScreen = ({navigation, route}) => {
+
+  const products = BREADS.filter((bread=>bread.category === route.params.categoryID));
+
+  const handleSelectedCategory = (item) => {
+    navigation.navigate("Details",{
+      productID: item.id,
+      name: item.name
+    });
+  }
+  const renderProductItem = ({item}) => {
+    return <ProductItem item={item} onSelected={handleSelectedCategory}/>
+  }
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Pantalla de categoría de productos</Text>
-      <Button title="Go to Details" onPress={()=>navigation.navigate("Details")}/>
-    </View>
+    <FlatList
+    data={products}
+    keyExtractor={(item)=>item.id}
+    renderItem={renderProductItem}
+    />
   )
 }
 
 export default ProductCategoryScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.White,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  title: {
-    fontFamily: "Raleway-Regular",
-  }
-})
